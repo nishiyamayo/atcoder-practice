@@ -1,4 +1,4 @@
-package arc002;
+package agc002;
 
 import java.util.Arrays;
 import java.util.HashSet;

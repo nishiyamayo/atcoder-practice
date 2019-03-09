@@ -1,4 +1,4 @@
-package arc001
+package agc001
 
 import java.util.Scanner
 
