@@ -14,11 +14,18 @@ object C extends App {
     .toStream
     .sortBy(t => t._1)
 
-  val min = ds(0)
-  val max = ds(ds.length - 1)
-  val ok = ds.count(_._2 >= 2)
+  val min = ds.head
+  val max = ds.last
+  val multi = ds.filter(_._2 >= 2).map(_._2).sum
+  val ok = ds.length == (max._1 - min._1 + 1)
 
   if ((max._1 + 1) / 2 != min._1) {
+    println("Impossible")
+  } else if (ok && max._1 % 2 == 1 && min._2 == 2 && multi == n) {
+    println("Possible")
+  } else if (ok && max._1 % 2 == 0 && min._2 == 1 && multi == n - 1) {
+    println("Possible")
+  } else {
     println("Impossible")
   }
 }
