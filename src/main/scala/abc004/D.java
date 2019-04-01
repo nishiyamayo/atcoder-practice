@@ -16,22 +16,27 @@ public class D {
             }
             ans = Math.min(ans, sum);
         }
-        debug(r(-105, 10), b(105, 10), g(-15, 10));
+        for (int i = 0; i < 300; i++) for (int j = 0; j < 300; j++) {
+            if (r(-i - 100, j) != g(i, j)) {
+                debug("error!!", i, j);
+            }
+        }
+        debug(r(-99, 10), b(99, 10), g(0, 10));
         System.out.println(ans);
     }
 
     long r(int x, int r) {
         long cnt = 0;
-        if (x < -100) {
+        if (x <= -100) {
             cnt = sum(-(x - r + 100 + 1)) - sum(-(x + 100) - 1);
         } else {
             int c = (100 + x) * 2 + 1;
             if (c > r) {
                 cnt += sum(r / 2) * 2 - (r % 2 == 0 ? r / 2 : 0);
             } else {
-                cnt += c;
+                cnt += sum(100 + x) * 2;
                 int remaining = r - c;
-                cnt += sum(-(-100 - r / 2 - remaining)) - sum(-(-100 - r / 2 + 1));
+                cnt += sum(c / 2 + remaining) - sum(c / 2);
             }
         }
         return cnt;
@@ -53,16 +58,16 @@ public class D {
 
     long b(int x, int b) {
         long cnt = 0;
-        if (x > 100) {
+        if (x >= 100) {
             cnt = sum((x + b - 100 - 1)) - sum(x - 100 - 1);
         } else {
             int c = (100 - x) * 2 + 1;
             if (c > b) {
                 cnt += sum(b / 2) * 2 - (b % 2 == 0 ? b / 2 : 0);
             } else {
-                cnt += c;
+                cnt += sum(100 - x) * 2;
                 int remaining = b - c;
-                cnt += sum(100 + b / 2 + remaining) - sum(100 + b / 2 - 1);
+                cnt += sum(c / 2 + remaining) - sum(c / 2);
             }
         }
         return cnt;
