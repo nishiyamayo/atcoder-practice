@@ -25,7 +25,7 @@ public class A {
         System.out.println(mins[in[9]]);
 
         // 61 * r1 - 59 * r2 = -1 を満たすr1,r2
-        extGCD(61, 59, X, Y);
+        extGCD(61, -59, X, Y);
         long val1 = 61 * X.l + in[10];
         long val2 = 59 * Y.l + in[11];
         debug(val1, val2);
