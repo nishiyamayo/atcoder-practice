@@ -23,44 +23,47 @@ public class C {
         }
 
         Arrays.sort(ps);
-
-        long score = 0;
-        long time = 0;
-        int i = 0;
-        while (score <= target) {
-            debug(score, target, time, ps[i].b, ps[i].l, ps[i].u);
-            if (score + (long) ps[i].u * x > target + (long) (ps[i].u - ps[i].l) * ps[i].b) {
-                long t;
-                for (t = 0; score + (long) ps[i].u * t < target + (long) (ps[i].u - ps[i].l) * ps[i].b; t++) {}
-                score += (long) ps[i].u * t;
-                target += (long) (ps[i].u - ps[i].l) * ps[i].b;
-                time += t;
-                break;
-            } else {
-                score += (long) ps[i].u * x;
-                time += x;
-                target += (long) (ps[i].u - ps[i].l) * ps[i].b;
-            }
-            i++;
-        }
-
-        debug(score, target);
-
-        System.out.println(time);
+        debug(ps);
+        System.out.println(binarySearch());
     }
 
-    public static int lowerBound(int[] array, int value) {
-        int left = -1;
-        int right = array.length;
-        while (right - left > 1) {
-            int middle = (right + left) / 2;
-            if (array[middle] >= value) {
-                right = middle;
+    public long binarySearch() {
+        long l = 0;
+        long r = x * n;
+
+        while (l < r) {
+            long c = (l + r) / 2;
+            if (win(c)) {
+                r = c;
             } else {
-                left = middle;
+                l = c + 1;
             }
         }
-        return right;
+        return l;
+    }
+
+    public boolean win(long time) {
+        long score = 0;
+        long target = 0;
+
+        int cnt = (int) (time / x);
+        for (int i = 0; i < cnt; i++) {
+            score += x * ps[i].u;
+            target += (long) ps[i].b * ps[i].u;
+        }
+
+        long remind = time - cnt * x;
+        int p = -1;
+        long max = - (1L << 30);
+        for (int i = cnt; i < n; i++) {
+            target += (long) ps[i].b * ps[i].l;
+            if (max < remind * ps[i].u - (long) ps[i].b * (ps[i].u - ps[i].l)) {
+                p = i;
+                max = remind * ps[i].u - (long) ps[i].b * (ps[i].u - ps[i].l);
+            }
+        }
+        debug(time, cnt, target, score, max);
+        return score + max >= target;
     }
 
     class P implements Comparable<P> {
@@ -71,7 +74,7 @@ public class C {
             this.b = b;
             this.l = l;
             this.u = u;
-            d = (x - b) * u;
+            d = (x - b) * u - b * l;
         }
 
         @Override
@@ -80,7 +83,12 @@ public class C {
             if (d != o.d) {
                 return o.d - d > 0 ? 1 : -1;
             }
-            return (o.u - o.l) - (u - l);
+            return (o.u - u);
+        }
+
+        @Override
+        public String toString() {
+            return String.format("{%d, %d, %d, %d}", b, l, u, d);
         }
     }
 
