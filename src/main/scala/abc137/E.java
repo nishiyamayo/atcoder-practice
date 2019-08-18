@@ -34,8 +34,6 @@ public class E {
         }
     }
 
-    void build()
-
     ArrayList<Integer> order = new ArrayList<>();
     void dfs(int idx, boolean[] visited) {
         visited[idx] = true;
