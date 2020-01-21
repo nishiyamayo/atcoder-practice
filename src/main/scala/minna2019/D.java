@@ -15,7 +15,7 @@ public class D {
             A[i] = sc.nextInt();
         }
 
-        // 0:<E, 1:E<=S, 2:S<=T, 3:T<=U, 4:U>
+        // 0:<F, 1:F<=S, 2:S<=T, 3:T<=U, 4:U>
         long[][] dp = new long[l][5];
         dp[0][0] = A[0];
         dp[0][1] = add(1, A[0]);
