@@ -1,5 +1,6 @@
 package abc147;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Scanner;
@@ -17,28 +18,39 @@ public class E {
             b[i][j] = sc.nextInt();
         }
 
-        boolean[][][] dp = new boolean[2][W + 1][160 * 80];
+        boolean[][][] dp = new boolean[2][W + 1][160 * 80 + 1];
 
-        dp[0][1][6400] = true;
+        dp[0][1][160 * 40] = true;
         int x = 0;
         for (int h = 1; h <= H; h++) {
             x = 1 - x;
-            Arrays.fill(dp[x][0], false);
             for (int w = 1; w <= W; w++) {
-                for (int k = 0; k < 160 * 80; k++) {
+                Arrays.fill(dp[x][w], false);
+//                HashSet<Integer> ok = new HashSet<>();
+                for (int k = 0; k <= 12800; k++) {
                     if (dp[1 - x][w][k] || dp[x][w - 1][k]) {
-                        dp[x][w][k + a[h][w] - b[h][w]] = true;
-                        dp[x][w][k + b[h][w] - a[h][w]] = true;
+//                        debug(dp[1 - x][w][k], dp[x][w - 1][k], x, h, w, k);
+                        if (0 <= k + a[h][w] - b[h][w] && k + a[h][w] - b[h][w] <= 12800) {
+                            dp[x][w][k + a[h][w] - b[h][w]] = true;
+//                            ok.add(k + a[h][w] - b[h][w]);
+                        }
+                        if (0 <= k - a[h][w] + b[h][w] && k - a[h][w] + b[h][w] <= 12800) {
+                            dp[x][w][k + b[h][w] - a[h][w]] = true;
+//                            ok.add(k + b[h][w] - a[h][w]);
+                        }
                     }
                 }
+//                debug(h, w, ok);
             }
         }
+
         int ans = 1 << 30;
-//        for (boolean v : dp[x][W]) ans = Math.min(ans, Math.abs(v));
+        for (int d = 0; d <= 12800; d++) {
+//            debug(dp[x][W][d], d);
+            if (dp[x][W][d]) ans = Math.min(ans, Math.abs(d - 6400));
+        }
         System.out.println(ans);
     }
-
-    class VS extends HashSet<Integer> {}
 
     void debug(Object... os) {
         System.err.println(Arrays.deepToString(os));
