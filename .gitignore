@@ -2,3 +2,4 @@
 target
 tmp
 venv
+src/main/scala/past002/*
