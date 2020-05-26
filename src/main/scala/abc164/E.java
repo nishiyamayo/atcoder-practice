@@ -86,16 +86,18 @@ public class E {
             if (cur.v != d[cur.c][cur.s]) continue;
             visited.add(cur.c);
 
+            // 両替の遷移
+            if (cur.s + C[cur.c] <= MAX && d[cur.c][cur.s + C[cur.c]] > cur.v + D[cur.c]) {
+                d[cur.c][cur.s + C[cur.c]] = cur.v + D[cur.c];
+                q.add(new Value(cur.c, cur.v + D[cur.c], cur.s + C[cur.c]));
+            }
+
             for (Node next : g[cur.c]) {
 
-                for (int i = 0; cur.s + i * C[cur.c] - next.a <= MAX; i++) {
-//                for (int i = 0; i <= 75; i++) {
-                    if (cur.s + i * C[cur.c] < next.a) continue;
-//                    if (cur.s + i * C[cur.c] - next.a > MAX) break;
-                    if (d[next.to][cur.s + i * C[cur.c] - next.a] > cur.v + next.b + i * D[cur.c]) {
-                        d[next.to][cur.s + i * C[cur.c] - next.a] = cur.v + next.b + i * D[cur.c];
-                        q.add(new Value(next.to, cur.v + next.b + i * D[cur.c], cur.s + i * C[cur.c] - next.a));
-                    }
+                    if (cur.s < next.a) continue;
+                if (d[next.to][cur.s - next.a] > cur.v + next.b) {
+                    d[next.to][cur.s - next.a] = cur.v + next.b;
+                    q.add(new Value(next.to, cur.v + next.b, cur.s - next.a));
                 }
             }
             if (visited.size() == n) break;
