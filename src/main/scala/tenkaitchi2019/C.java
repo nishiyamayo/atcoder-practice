@@ -15,8 +15,6 @@ public class C {
             sum2[i] = sum2[i - 1] + (s.charAt(i - 1) == '.' ? 0 : 1);
         }
 
-        debug(sum1, sum2);
-
         int ans = 2 * n;
         for (int i = 0; i <= n; i++) {
             ans = Math.min(ans, sum1[i] + sum2[n - i]);
